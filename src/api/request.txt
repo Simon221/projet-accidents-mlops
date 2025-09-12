@@ -1,0 +1,135 @@
+### Get health
+curl -X GET http://localhost:8000/health
+
+
+### POST admin/regsiter
+curl -X POST http://localhost:8000/admin/register \
+  -H "x-admin-token: change-me-secure-token" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"test"}'
+
+
+
+### POST admin/regsiter | Forbiden
+curl -X POST http://localhost:8000/admin/register \
+  -H "x-admin-token: another-secure-token" \
+  -H "Content-Type: application/json" \
+  -d '{"action":"test"}'
+
+
+
+### POST predict
+
+##### Ex : 1
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+        "features": {
+          "id_usager": "203813884",
+          "place": 2,
+          "catu": 2,
+          "sexe": 2,
+          "secu1": 1.0,
+          "year_acc": 2023,
+          "victim_age": 46.0,
+          "catv": 2.0,
+          "obsm": 2.0,
+          "motor": 1.0,
+          "catr": 3,
+          "circ": 2.0,
+          "surf": 2.0,
+          "situ": 1.0,
+          "vma": 90.0,
+          "jour": 25,
+          "mois": 4,
+          "lum": 2,
+          "dep": 34,
+          "com": 34333,
+          "agg_": 1,
+          "int": 1,
+          "atm": 1.0,
+          "col": 5.0,
+          "lat": 43.475221,
+          "long": 3.770757,
+          "hour": 21,
+          "nb_victim": 6,
+          "nb_vehicules": 3
+        }
+      }'
+
+
+##### Ex : 2
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+        "features": {
+          "id_usager": "203839025",
+          "place": 1,
+          "catu": 1,
+          "sexe": 1,
+          "secu1": 2.0,
+          "year_acc": 2023,
+          "victim_age": 19.0,
+          "catv": 1.0,
+          "obsm": 0.0,
+          "motor": 1.0,
+          "catr": 2,
+          "circ": 2.0,
+          "surf": 2.0,
+          "situ": 1.0,
+          "vma": 50.0,
+          "jour": 16,
+          "mois": 11,
+          "lum": 2,
+          "dep": 14,
+          "com": 14543,
+          "agg_": 1,
+          "int": 6,
+          "atm": 1.0,
+          "col": 6.0,
+          "lat": 49.20355399,
+          "long": -0.49056292,
+          "hour": 18,
+          "nb_victim": 2,
+          "nb_vehicules": 2
+        }
+      }'
+
+
+##### Ex : 3
+curl -X POST http://localhost:8000/predict \
+  -H "Content-Type: application/json" \
+  -d '{
+        "features": {
+          "id_usager": "203752178",
+          "place": 1,
+          "catu": 1,
+          "sexe": 2,
+          "secu1": 0.0,
+          "year_acc": 2023,
+          "victim_age": 21.0,
+          "catv": 2.0,
+          "obsm": 0.0,
+          "motor": 1.0,
+          "catr": 4,
+          "circ": 1.0,
+          "surf": 2.0,
+          "situ": 4.0,
+          "vma": 50.0,
+          "jour": 15,
+          "mois": 5,
+          "lum": 5,
+          "dep": 11,
+          "com": 11069,
+          "agg_": 2,
+          "int": 1,
+          "atm": 0.0,
+          "col": 6.0,
+          "lat": 43.210756,
+          "long": 2.355264,
+          "hour": 23,
+          "nb_victim": 1,
+          "nb_vehicules": 1
+        }
+      }'
+

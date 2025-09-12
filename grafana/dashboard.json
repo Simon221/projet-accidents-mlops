@@ -1,0 +1,101 @@
+{
+  "id": null,
+  "title": "Accidents APIs Monitoring - From FastAPI and Prometheus",
+  "tags": ["api", "prometheus"],
+  "timezone": "browser",
+  "schemaVersion": 30,
+  "version": 3,
+  "panels": [
+    {
+      "type": "timeseries",
+      "title": "API Requests per Endpoint",
+      "targets": [
+        {
+          "expr": "sum by (endpoint) (rate(api_requests_total[1m]))",
+          "legendFormat": "{{endpoint}}"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 1,
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 0 },
+      "fieldConfig": {
+        "defaults": { "unit": "req/s", "lineWidth": 2 }
+      }
+    },
+    {
+      "type": "timeseries",
+      "title": "API Latency (95th percentile)",
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(api_request_latency_seconds_bucket[5m])) by (le, endpoint))",
+          "legendFormat": "{{endpoint}}"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 2,
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "fieldConfig": {
+        "defaults": { "unit": "s", "lineWidth": 2 }
+      }
+    },
+    {
+      "type": "bargauge",
+      "title": "Requests by Status Code",
+      "targets": [
+        {
+          "expr": "sum by (status) (increase(api_requests_total[5m]))",
+          "legendFormat": "status {{status}}"
+        }
+      ],
+      "datasource": "Prometheus",
+      "id": 3,
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+      "options": { "displayMode": "lcd", "orientation": "horizontal" }
+    },
+    {
+      "type": "gauge",
+      "title": "Total API Requests",
+      "targets": [
+        { "expr": "sum(api_requests_total)", "legendFormat": "total" }
+      ],
+      "datasource": "Prometheus",
+      "id": 4,
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 16 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req",
+          "min": 0,
+          "thresholds": {
+            "steps": [
+              { "color": "green" },
+              { "color": "orange", "value": 100 },
+              { "color": "red", "value": 500 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "type": "stat",
+      "title": "Requests per Minute",
+      "targets": [
+        { "expr": "sum(rate(api_requests_total[1m])) * 60", "legendFormat": "rpm" }
+      ],
+      "datasource": "Prometheus",
+      "id": 5,
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 16 },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "req/min",
+          "thresholds": {
+            "steps": [
+              { "color": "green" },
+              { "color": "orange", "value": 50 },
+              { "color": "red", "value": 200 }
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

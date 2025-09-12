@@ -1,0 +1,13 @@
+
+stages:
+  train:
+    cmd: python src/training/train.py --x-train data/X_train.csv --y-train data/y_train.csv --x-test data/X_test.csv --y-test data/y_test.csv --output-dir outputs
+    deps:
+      - src/training/train.py
+      - data/X_train.csv
+      - data/y_train.csv
+      - data/X_test.csv
+      - data/y_test.csv
+    outs:
+      - outputs/model.pkl
+      - outputs/report.txt

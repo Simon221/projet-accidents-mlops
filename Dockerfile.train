@@ -1,0 +1,7 @@
+
+FROM python:3.10-slim
+WORKDIR /train
+COPY requirements.txt /train/requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+COPY src /train/src
+CMD ["python", "src/training/train.py", "--x-train", "/data/X_train.csv", "--y-train", "/data/y_train.csv", "--x-test", "/data/X_test.csv", "--y-test", "/data/y_test.csv", "--output-dir", "/outputs", "--mlflow-uri", "http://mlflow:5001"]
