@@ -1,12 +1,12 @@
 # 🚦 Accidents MLOps Project (Datascientest)
 
 Ce projet illustre un **pipeline MLOps minimal** intégrant :  
-- 🔹 **Entraînement** d’un modèle ML (RandomForest)  
-- 🔹 **Suivi des expériences** avec **MLflow**  
-- 🔹 **Espaces réservés pour DVC** (versionnage des données et pipelines)  
-- 🔹 **API d’inférence** via **FastAPI**  
-- 🔹 **Supervision** avec **Prometheus / Grafana**  
-- 🔹 **Orchestration** via **Docker Compose**  
+- **Entraînement** d’un modèle ML (RandomForest)  
+- **Suivi des expériences** avec **MLflow**  
+- **Espaces réservés pour DVC** (versionnage des données et pipelines)  
+- **API d’inférence** via **FastAPI**  
+- **Supervision** avec **Prometheus / Grafana**  
+- **Orchestration** via **Docker Compose**  
 
 ---
 
@@ -132,3 +132,38 @@ Si vous voyez le message *"Datasource Prometheus was not found"*, créez une dat
 - Mettre l’URL : `http://prometheus:9090`  
 - Donner le nom **Prometheus**  
 - Enregistrer  
+
+
+## 🚀 Démarrer le projet en local
+### 0. Déplaces toi dans l'environnement virtuel (mlops_env) et active le. A defaut installer le requirements.txt
+```bash
+cd accidents-mlops
+# et
+source mlops_env/bin/activate
+
+```
+### 1. Démarrer le MLflow
+```bash
+mlflow ui --backend-store-uri sqlite:///mlflow.db --default-artifact-root ./mlflow/artifacts -p 5001
+```
+
+### 2. Lancer un Training
+```bash
+python src/training/train.py --x-train data/X_train.csv --y-train data/y_train.csv --x-test data/X_test.csv --y-test data/y_test.csv --output-dir outputs --mlflow-uri http://127.0.0.1:5001
+```
+
+### 3. Lancer l'API
+```bash
+uvicorn src.api.app:app --host 0.0.0.0 --port 8000
+```
+### 🔧 Exemples de requêtes (voir aussi `request.txt`)
+
+#### ✅ GET Health
+```bash
+curl -X GET http://localhost:8000/health
+```
+
+#### ✅ POST admin/register (OK)
+```bash
+curl -X POST http://localhost:8000/admin/register   -H "x-admin-token: change-me-secure-token"   -H "Content-Type: application/json"   -d '{"action":"test"}'
+```
