@@ -43,7 +43,7 @@
       "title": "Requests by Status Code",
       "targets": [
         {
-          "expr": "sum by (status) (increase(api_requests_total[5m]))",
+          "expr": "sum by (status) (api_requests_total)",
           "legendFormat": "status {{status}}"
         }
       ],
